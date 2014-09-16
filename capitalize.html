@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <script type="text/javascript">
+    	function test () {
+    		// body...
+    		var stro = "last-modified";
+
+            var convert = ucFirstAllWords(stro);
+            alert(convert);
+    	}
+
+            function ucFirstAllWords( str )
+            {
+                var pieces = str.split("-");
+                for ( var i = 0; i < pieces.length; i++ )
+                {
+                    var j = pieces[i].charAt(0).toUpperCase();
+                    pieces[i] = j + pieces[i].substr(1);
+                }
+                return pieces.join("-");
+            }
+        function conv(str) {
+            return str.replace(/\w\S*/g, function(txt){
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="elementInfo">
+        last-modified
+    </div>
+	<button onclick="test()">test</button>
+</body>
+</html>

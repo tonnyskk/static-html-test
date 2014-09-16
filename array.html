@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <script type="text/javascript">
+    	function testArray () {
+    		// body...
+    		var test = [1, 2, 3, 4];
+    		test.splice(0, 0, 12);
+    		for(var i in test) {
+    			console.log(test[i]);
+    		}
+    	}
+    </script>
+</head>
+<body>
+	<button onclick="testArray()">test</button>
+</body>
+</html>

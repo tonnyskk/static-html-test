@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <script type="text/javascript">
+    	function loadItems() {
+            var container = document.getElementById('itemContainer');
+
+            for(var i = 0; i < 30; i ++) {
+                var divChild = document.createElement('div');
+                divChild.innerHTML = 'This is list Item > ' + i;
+                container.appendChild(divChild);
+            }
+
+            var loadingItem = document.getElementById('loading');
+            if (loadingItem.style.display != 'none') {
+                loadingItem.style.display = 'none';
+            }
+        }
+
+        function checkScroll(container) {
+
+            var container = document.getElementById('scrollContainer');
+
+            var scrollHeight = container.scrollHeight;
+            var scrollTop    = container.scrollTop;
+            var clientHight    = container.offsetHeight;
+
+            var loadingItem = document.getElementById('loading');
+            console.log('scrollHeight = ' + scrollHeight + ", scrollTop = " + scrollTop + ', clientHight = ' + clientHight);
+            if (scrollHeight - clientHight <= scrollTop) {
+                if (loadingItem.style.display == 'none') {
+                    loadingItem.style.display = "inline";
+                    setTimeout(loadItems, 3000);
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="loadItems()">
+	<div id="scrollContainer" style="overflow-y: scroll; height: 300px;" onscroll="checkScroll(this)" onmousewheel="checkScroll()">
+        <div id="itemContainer">
+        </div>
+        <div id="loading" style="display: none;">
+            <IMG src='wait.gif' width="20px" hight="20px">Loading Item
+        </div>
+    </div>
+</body>
+</html>

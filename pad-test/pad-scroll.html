@@ -65,7 +65,30 @@
         }
         function scrollToView() {
             var scrollObj = document.getElementById('testId');
-            scrollObj.scrollIntoView();
+
+            //isInView(scrollObj);
+
+            scrollObj.scrollIntoView(false);
+            //$('#testId').scrollIntoView(false);
+
+            //isInView(scrollObj);
+        }
+        function isInView(scrollObj) {
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+            console.log('docViewTop = ' + docViewTop + ', docViewBottom = ' + docViewBottom);
+
+
+            var popupcontainer = document.getElementById('popupcontainer');
+            var elemScrollTop = popupcontainer.scrollTop;
+            var elemScrollBottom = elemScrollTop + popupcontainer.scrollHeight;
+
+            console.log('elemScrollTop    = ' + elemScrollTop + ', elemScrollBottom    = ' + elemScrollBottom);
+            var elemTop = $(scrollObj).offset().top;
+            var elemBottom = elemTop + $(scrollObj).height();
+            console.log('elemTop    = ' + elemTop +    ', elemBottom    = ' + elemBottom);
+            var isInView = ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+            alert('isInView = ' + isInView);
         }
     </script>
 </head>
@@ -81,7 +104,7 @@
         <div class="popuptitle">
                 Search result
         </div>
-    	<div class="popupcontent">
+    	<div class="popupcontent" id="popupcontainer">
             <div>
                 <h1>test 1</h1>
             </div>
@@ -97,7 +120,7 @@
             <div>
                 <h1>test 5</h1>
             </div>
-            <div>
+            <div id="testId">
                 <h1>test 6</h1>
             </div>
             <div>
@@ -109,7 +132,7 @@
             <div>
                 <h1>test 9</h1>
             </div>
-            <div id="testId">
+            <div>
                 <h1>test 10</h1>
             </div>
             <div>

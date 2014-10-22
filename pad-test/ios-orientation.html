@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script type="text/javascript">
+        var iPhoneOrIPod = false;
+        var match = navigator.userAgent.match(/(?:iPod|iPhone)(?:.+OS (\d+))?/);
+        if (match){
+            iPhoneOrIPod = match[1] || 7;
+        }
+        function getWindowHeight() {
+            if (window.self && self.innerHeight) {
+                return self.innerHeight;
+            }
+            if (document.documentElement && document.documentElement.clientHeight) {
+                return document.documentElement.clientHeight;
+            }
+            return 0;
+        }
+        function resizeApp() {
+            var height = getWindowHeight();
+            if (iPhoneOrIPod) {
+                if (!document.body.style.minHeight) {
+                    var minHeight = Math.max(height, getWindowWidth());
+                    if (iPhoneOrIPod < 7) {
+                        minHeight += 60;
+                    }
+                    document.body.style.minHeight = minHeight + "px";
+                }
+
+            }
+        }
+        window.addEventListener("orientationchange", function (event) {
+            var windowInfo = window.outerHeight + ' - ' + window.outerWidth + ' > ' + window.innerHeight + ' - ' + window.innerWidth;
+            //alert(windowInfo);  
+            window.scrollBy(1, 1);
+            //document.body.scrollIntoView();
+            /*var windowScreen = window.screen.height + ' - ' + window.screen.width;
+            var height = window.screen.height;
+            var width = window.screen.width;
+            if (height < width) {
+                window.screen.height = width;
+                window.screen.width = height;
+            } */
+            //alert(windowInfo + ' >> ' + windowScreen);
+        });
+    </script>
+</head>
+<body style="width: 100%; height: 100%; border:12px solid blue; position: fixed; margin: 0; padding: 0;">
+    <div style="border:12px solid red; width: 100%; height: 100%;">
+        Check windows
+        <div style="vertical-align:bottom; position: fixed; bottom: 0px;">dafdsa</div>
+    </div>
+</body>
+
+</html>

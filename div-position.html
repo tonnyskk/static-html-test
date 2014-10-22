@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gb2312" />
+<title>divpost</title>
+<style>
+	html,body{ height:100%; margin:0; padding:0; font-size:14px;}
+	.mask {
+	    height: 100%;
+	    width: 100%;
+	    top: 0;
+	    left:0;
+	    position:fixed;
+	    z-index: 9998;
+	}
+	.content {
+	    height:200px;
+	    width:400px;
+	    overflow:auto;
+	    border:2px solid #ccc;
+	    background-color:#000;
+	    position:absolute;
+	    top:50%;
+	    left:50%;
+	    margin:-100px auto auto -200px;
+	    z-index:9999;
+	    padding:3px;
+	    opacity: 0.3;
+	    filter: alpha(opacity = 30);
+	}
+</style>
+</head>
+<body>
+	<div class="mask">
+		<div class="content">
+			Loading
+		</div>
+	</div>
+</body>
+</html> 

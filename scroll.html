@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+    <STYLE>
+    .nearbySearchContainer {
+        position: fixed;
+        top: 6em;
+        left: 1.5em;
+        }
+    .parents {
+       width: 22.25em;
+        z-index: 1001;
+        max-height: 45em;
+    }
+    .popupcontent{
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        border: none;
+        background-color: #ffffff;
+        max-height: 20.25em;
+    }
+    .popupcontent > div {
+        width : 100%;
+        border: 1px solid red;
+    }
+    .popupcontent:hover {
+        overflow-y: auto;
+    }
+    </STYLE>
+    
+    <script>
+        function scrollToView() {
+            var index = document.getElementById('scrollIndex').value;
+            var container = document.getElementById('popupcontainer');
+            var scrollObj = document.getElementById('scroll_div_' + index);
+
+            /*var attrs1 = 'scrollTop    = ' + container.scrollTop + ', offsetHeight = ' + container.offsetHeight + ', scrollHeight=' + container.scrollHeight + ', clientHeight=' + container.clientHeight;
+            var attrs2 = 'scrollTop    = ' + scrollObj.scrollTop + ', offsetHeight = ' + scrollObj.offsetHeight + ', scrollHeight=' + scrollObj.scrollHeight + ', clientHeight=' + scrollObj.clientHeight;
+            console.log(attrs1);
+            console.log(attrs2);
+            var showText1 = document.getElementById('showText1');
+            showText1.innerHTML = attrs1;
+            var showText2 = document.getElementById('showText2');
+            showText2.innerHTML = attrs2;
+            */
+            var top = container.scrollTop;
+            var bottom = top + container.offsetHeight;
+
+            var container_top = 0;
+            for (var i = 0; i < index; i++) {
+                container_top += document.getElementById('scroll_div_' + (i + 1)).offsetHeight;
+            }
+            //var container_top = scrollObj.offsetHeight * (index - 1);
+            var container_bot = container_top + scrollObj.offsetHeight;
+
+            //var elemTop = $(scrollObj).offset().top;
+            //var elemBottom = elemTop + $(scrollObj).outerHeight(true);
+
+            var isVisible = container_top >= top && container_bot <= bottom
+
+            var showText3 = document.getElementById('showText3');
+            showText3.innerHTML = 'container_top=' + container_top +
+                ', container_bot=' + container_bot +
+                //', elemTop=' + elemTop +
+                //', elemBottom=' + elemBottom +
+                ', top=' + top +
+                ', bottom=' + bottom + ' = ' + isVisible;
+
+
+            var $window = $(window);
+            var window_top = $window.scrollTop();
+
+            var $element = $(scrollObj);
+            var offset = $element.offset();
+            var offset_top = offset.top;
+            
+            var attr4 = 'window_top=' + window_top + ',window_height=' + $window.height() + ',offset_top=' + offset_top + ',element_hight' + $element.height();
+            var showText4 = document.getElementById('showText4');
+            showText4.innerHTML = attr4;
+            if (offset_top + $element.height() >= window_top && offset_top - ($element.data('appear-top-offset') || 0) <= window_top + $window.height()) {
+                alert(true);
+            } else {
+                alert(false);
+            }
+
+
+            if (!isVisible) {
+                var isScrollTop = container_top < top;
+                scrollObj.scrollIntoView(isScrollTop);
+            }
+        }
+        
+    </script>
+</head>
+<body>
+    <div>
+        <input type="text" id="scrollIndex" value="1" />
+        <button onclick="scrollToView()">ScrollToView</button>
+    </div>
+    <div id="showText1">
+    </div>
+    <div id="showText2">
+    </div>
+    <div id="showText3">
+    </div>
+    <div id="showText4">
+    </div>
+    <div class="nearbySearchContainer">
+        <div class="parents">
+    	    <div class="popupcontent" id="popupcontainer">
+                <div id="scroll_div_1">
+                    <h1>test 1</h1>
+                    <span>Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America</span>
+                </div>
+                <div id="scroll_div_2">
+                    <h1>test 2</h1>
+                </div>
+                <div id="scroll_div_3">
+                    <h1>test 3</h1>
+                </div>
+                <div id="scroll_div_4">
+                    <h1>test 4</h1>
+                </div>
+                <div id="scroll_div_5">
+                    <h1>test 5</h1>
+                    <span>Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America</span>
+                </div>
+                <div id="scroll_div_6">
+                    <h1>test 6</h1>
+                </div>
+                <div id="scroll_div_7">
+                    <h1>test 7</h1>
+                </div>
+                <div id="scroll_div_8">
+                    <h1>test 8</h1>
+                    <span>Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America,Intramural Field 6, Rice University Running Trail, Houston, Harris County, Texas, 77030, United States of America</span>
+                </div>
+                <div id="scroll_div_9">
+                    <h1>test 9</h1>
+                </div>
+                <div id="scroll_div_10">
+                    <h1>test 10</h1>
+                </div>
+                <div id="scroll_div_11">
+                    <h1>test 11</h1>
+                </div>
+                <div id="scroll_div_12">
+                    <h1>test 12</h1>
+                </div>
+                <div id="scroll_div_13">
+                    <h1>test 13</h1>
+                </div>
+                <div id="scroll_div_14">
+                    <h1>test 14</h1>
+                </div>
+            </div>
+        </div>  
+    </div>
+</body>
+</html>

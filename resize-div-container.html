@@ -1,0 +1,260 @@
+<html>
+<style>
+.resizer {
+    position: relative;
+    background-color: #4f9cf0;
+}
+.resizer:hover {
+    cursor: move;
+}
+
+.resize-anchor {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border: 1px solid red;
+}
+
+.resizer-nw:hover {
+    cursor: nw-resize;
+}
+
+.resizer-n:hover {
+    cursor: n-resize;
+}
+
+.resizer-ne:hover {
+    cursor: ne-resize;
+}
+
+.resizer-e:hover {
+    cursor: e-resize;
+}
+
+.resizer-se:hover {
+    cursor: se-resize;
+}
+
+.resizer-s:hover {
+    cursor: s-resize;
+}
+
+.resizer-sw:hover {
+    cursor: sw-resize;
+}
+
+.resizer-w:hover {
+    cursor: w-resize;
+}
+</style>
+
+<body>
+    <div id="resizer" class="resizer"></div>
+    <script>
+    (function() {
+        function RectResizer(resizer, size, position) {
+            this.id = resizer;
+            this.resizer = document.getElementById(this.id);
+            this.size = size;
+            this.position = position;
+
+            this.anchorSize = 8 / 2;
+            this.dragPosition = {x: 0, y: 0};
+            this.dragSize = {x: 0, y :0};
+
+            this.anchors = [
+                'resizer-nw',
+                'resizer-n',
+                'resizer-ne',
+                'resizer-e',
+                'resizer-se',
+                'resizer-s',
+                'resizer-sw',
+                'resizer-w'
+            ];
+            this.render();
+            this.attachEventHandler(this.resizer);
+        }
+
+        var proto = RectResizer.prototype;
+
+        proto.render = function() {
+            // Update dom position.
+            this.updatePosition(this.position, this.size);
+
+            // Append anchor to resize container
+            this.anchors.forEach(function(anchor) {
+                var anchorDom = document.createElement('div');
+                anchorDom.id = anchor;
+                anchorDom.className = 'resize-anchor ' + anchor;
+                this.updateAnchorPosition(anchorDom, this.size);
+                this.resizer.appendChild(anchorDom);
+            }.bind(this));
+        };
+
+        proto.updateAnchorPosition = function(anchor, size) {
+            // Use relative-absolute position which is left-top: 0-0
+            switch (anchor.id) {
+                case 'resizer-nw':
+                    anchor.style.top = 0 - this.anchorSize + 'px';
+                    anchor.style.left = 0 - this.anchorSize + 'px';
+                    break;
+                case 'resizer-n':
+                    anchor.style.top = 0 - this.anchorSize + 'px';
+                    anchor.style.left = 0 + size.x / 2.0 - this.anchorSize + 'px';
+                    break;
+                case 'resizer-ne':
+                    anchor.style.top = 0 - this.anchorSize + 'px';
+                    anchor.style.left = 0 + size.x - this.anchorSize + 'px';
+                    break;
+                case 'resizer-e':
+                    anchor.style.top = 0 + size.y / 2.0 - this.anchorSize + 'px';
+                    anchor.style.left = 0 + size.x - this.anchorSize + 'px';
+                    break;
+                case 'resizer-se':
+                    anchor.style.top = 0 + size.y - this.anchorSize + 'px';
+                    anchor.style.left = 0 + size.x - this.anchorSize + 'px';
+                    break;
+                case 'resizer-s':
+                    anchor.style.top = 0 + size.y - this.anchorSize + 'px';
+                    anchor.style.left = 0 + size.x / 2.0 - this.anchorSize + 'px';
+                    break;
+                case 'resizer-sw':
+                    anchor.style.top = 0 + size.y - this.anchorSize + 'px';
+                    anchor.style.left = 0 - this.anchorSize + 'px';
+                    break;
+                case 'resizer-w':
+                    anchor.style.top = 0 + size.y / 2.0 - this.anchorSize + 'px';
+                    anchor.style.left = 0 - this.anchorSize + 'px';
+                    break;
+            }
+        };
+
+        proto.updatePosition = function (position, size) {
+            this.resizer.style.width = size.x + 'px';
+            this.resizer.style.height = size.y + 'px';
+            this.resizer.style.top = position.y - size.y / 2.0 + 'px';
+            this.resizer.style.left = position.x - size.x / 2.0 + 'px';
+        };
+
+        proto.update = function (width, height, target) {
+            if (!target) {
+                return;
+            }
+
+            // If is moving the container
+            if (target.id === this.id) {
+                this.dragPosition.x = this.position.x + width;
+                this.dragPosition.y = this.position.y + height;
+                this.updatePosition(this.dragPosition, this.dragSize);
+            } else {
+                switch (target.id) {
+                    case 'resizer-nw':
+                        this.dragPosition.x = this.position.x + width / 2.0;
+                        this.dragPosition.y = this.position.y + height / 2.0;
+                        this.dragSize.x = Math.abs(this.size.x - width);
+                        this.dragSize.y = Math.abs(this.size.y - height);
+                        break;
+                    case 'resizer-n':
+                        this.dragPosition.y = this.position.y + height / 2.0;
+                        this.dragSize.y = Math.abs(this.size.y - height);
+                        break;
+                    case 'resizer-ne':
+                        this.dragPosition.x = this.position.x + width / 2.0;
+                        this.dragPosition.y = this.position.y + height / 2.0;
+                        this.dragSize.x = Math.abs(this.size.x + width);
+                        this.dragSize.y = Math.abs(this.size.y - height);
+                        break;
+                    case 'resizer-e':
+                        this.dragPosition.x = this.position.x + width / 2.0;
+                        this.dragSize.x = Math.abs(this.size.x + width);
+                        break;
+                    case 'resizer-se':
+                        this.dragPosition.x = this.position.x + width / 2.0;
+                        this.dragPosition.y = this.position.y + height / 2.0;
+                        this.dragSize.x = Math.abs(this.size.x + width);
+                        this.dragSize.y = Math.abs(this.size.y + height);
+                        break;
+                    case 'resizer-s':
+                        this.dragPosition.y = this.position.y + height / 2.0;
+                        this.dragSize.y = Math.abs(this.size.y + height);
+                        break;
+                    case 'resizer-sw':
+                        this.dragPosition.x = this.position.x + width / 2.0;
+                        this.dragPosition.y = this.position.y + height / 2.0;
+                        this.dragSize.x = Math.abs(this.size.x - width);
+                        this.dragSize.y = Math.abs(this.size.y + height);
+                        break;
+                    case 'resizer-w':
+                        this.dragPosition.x = this.position.x + width / 2.0;
+                        this.dragSize.x = Math.abs(this.size.x - width);
+                        break;
+                }
+
+                this.updatePosition(this.dragPosition, this.dragSize);
+
+                this.anchors.forEach(function(anchor) {
+                     var anchorDom = document.getElementById(anchor);
+                     this.updateAnchorPosition(anchorDom, this.dragSize);
+                }.bind(this));
+            }
+        };
+
+        proto.attachEventHandler = function (anchor) {
+            var self = this;
+
+            var _doDrag = function (event) {
+                var dragWidth = event.clientX - self.startX;
+                var dragHeight = event.clientY - self.startY;
+
+                self.update(dragWidth, dragHeight, self.dragTarget);
+                event.preventDefault();
+            };
+
+            var _startDrag = function (event) {
+                self.startX = event.clientX;
+                self.startY = event.clientY;
+                self.dragTarget = event.target;
+                self.dragPosition = {
+                    x: self.position.x,
+                    y: self.position.y
+                };
+                self.dragSize = {
+                    x: self.size.x,
+                    y: self.size.y
+                }
+                document.addEventListener('mousemove', _doDrag, true);
+                event.preventDefault();
+            };
+
+            anchor.addEventListener('mousedown', _startDrag, true);
+            document.addEventListener('mouseup', function (event) {
+                self.position.x = self.dragPosition.x;
+                self.position.y = self.dragPosition.y;
+                self.size.x = self.dragSize.x;
+                self.size.y = self.dragSize.y;
+                document.removeEventListener('mousemove', _doDrag, true);
+                event.preventDefault();
+            }, true);
+        };
+
+        proto.getSize = function () {
+            return this.size;
+        };
+
+        proto.getPosition = function () {
+            return this.position;
+        };
+
+        var resizer = new RectResizer('resizer', {
+            x: 200,
+            y: 300
+        }, {
+            x: 400,
+            y: 400
+        });
+    })();
+    </script>
+</body>
+
+</html>
